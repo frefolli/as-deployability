@@ -19,7 +19,7 @@
   linkcolor=blue,
   filecolor=magenta,      
   urlcolor=cyan,
-  pdftitle={IR Project},
+  pdftitle={Architettura del Software},
   pdfpagemode=FullScreen,
 }
 
@@ -112,7 +112,7 @@
   %\vspace{50mm}
   %\vspace{15mm}
   \begin{center}
-    \large{Refolli Francesco} \large{865955},
+    \large{Refolli Francesco} \large{865955}
   \end{center}
   %\restoregeometry
   %\end{titlepage}
@@ -120,5 +120,59 @@
   %\tableofcontents
   \renewcommand{\baselinestretch}{1.5}
 
+  \section{\textit{Deployment}}
+
+  Il \textbf{deployment} nel settore dello sviluppo software \`e il processo di implementazione e distribuzione del software o di sue modifiche. Il processo assume il nome di \textit{continuous deployment} se \`e completamente automatizzato o di \textit{continuous delivery} se necessita dell'intervento umano per scatenare alcune azioni. Per velocizzare il processo si utilizza una sequenze di azioni e strumenti (\textit{pipeline}) che processano il software in vario modo per testarlo, verificare alcune caratteristiche o costruire artefatti utili alla distribuzione. La pipeline muove una versione di un modulo del software sequenzialmente in diversi ambienti:
+
+  \begin{itemize}
+    \item Un ambiente di \textit{development} dove avviene la scrittura di codice e dove vengono svolti tests di unit\`a sui suoi componenti.
+    \item Un ambiente di \textit{intergration} dove viene testato insieme al resto del sistema.
+    \item Un ambiente di \textit{staging} dove viene ulteriormente valutato in termini di sicurezza, performance o conformit\`a alle regolamentazioni.
+    \item Un ambiente di \textit{production} dove il software \`e dispiegato per essere usato e monitorato.
+  \end{itemize}
+
+  Una pipeline ben costruita permette di avere cicli di breve durata, tracciabilit\`a completa in caso di errori (tramite artefatti o metadati) e idempotenza nelle azioni se ripetute tramite gli stessi input (cosa non scontata se esistono fattori ambientali non-deterministici come dipendenza da versioni "latest" o dati di contesto in file o basi di dati).
+
+  Spesso emerge la necessit\`a di implementare meccanismi per includere o escludere features dalle istanze in modo dinamico (o statico) e di disporre di compatibilit\`a con le versioni precedenti. Queste sono scelte architetturali e possono avere un impatto sulla qualit\`a della soluzione e sulla sua \textit{deployability}.
+
+  \subsection{\textit{Deployability}}
+
+  Il termine \textit{deployability} indica che il deployment di un software \`e un processo dal prevedibile impegno in termini di risorse, tempo e costo. Inoltre in caso di problemi deve essere sempre possibile effettuare il rollback alla versione precedente per limitare i danni e riportare la versione problematica in sede di sviluppo.
+
+  Si tratta chiaramente di una propriet\`a molto discrezionale, siccome si possono valutare numerosi aspetti: il \textbf{meccanismo} di \textit{raggiungimento} e \textit{aggiornamento} delle versioni \footnote{Include il medium, ex: DVD, USB, Internet, ...}, la \textbf{granularit\`a} di modifica \footnote{Pu\`o essere importante poter sostituire dei moduli senza portare down l'intero applicativo}, il tipo di packaging scelto \footnote{Syspackage, archivio, plugin, flatpack, container ...} e l'efficienza del processo. La valutazione di questi aspetti non \`e per forza univoca e in base alle circostanze determinate soluzioni possono essere pi\`u vantaggiose di altre \footnote{Ex: se i container sono comodi per dispiegare applicazioni headless, non si pu\`o dire lo stesso di applicazioni grafiche}.
+
+  \section{Tattiche}
+
+  \subsection{Gestione della Pipeline di Deployment}
+
+  \paragraph{Scale rollouts}
+
+  Restringere l'aggiornamento di versione ad un gruppo controllato di utenti e poi allargare gradualmente la platea di utenza servita dalla nuova versione permette di monitorare le modifiche minimizzando possibili i danni in caso di guasto.
+
+  \paragraph{Roll back}
+
+  In caso di malfunzionamenti \`e possibile ripristinare la versione precedente nelle istanze aggiornate o ricrearle direttamente.
+
+  \paragraph{Script deployment commands}
+
+  \`E assolutamente necessario automatizzare tutti i processi tediosi. Questo include anche le azioni di deployment, che possono andare dalla pacchettizzazione, al trasferminento e all'installazione delle nuove versioni di un software.
+
+  \subsection{Gestione del Sistema in Deployment}
+
+  \paragraph{Manage service interactions}
+
+  Si intercede nelle richieste per mitigare le incompatibilit\`a dovute a cambiamenti di interfacce, dando la possibilit\`a di dispiegare multiple versioni di un servizio contemporaneamente e mascherarle dietro ad un load balancer senza rischiare inconsistenze.
+
+  \paragraph{Package dependencies}
+
+  \`E possibile pacchettizare il software in modo da far contenere alla distribuzione le sue dipendenze \footnote{Chiaramente questi pacchetti saranno pi\`u pesanti}. \`E l'approccio che seguono modelli come Flatpack, AppImage ... \cite{cichocki2023comparative}, tuttavia tecnologie come Nix \cite{dolstra2004nix} e Guix \cite{courtes2013functional} hanno introdotto la possibilit\`a di avere un sistema operativo che gestisce le dipendenze dei pacchetti in modo da isolare gli applicativi e mantenere diverse versioni delle stesse librerie.
+
+  \paragraph{Feature toggles}
+
+  Come detto precedentemente, in base al tipo di features che si vogliono introdurre, ai bisogni di personalizzazione \footnote{Caso delle applicazione multi-tenant} si pu\`o rendere necessario un meccanismo di selezione delle opzioni per una istanza \footnote{Eventualmente replicabile come file di configurazione o simili} in modo da ritardare o anticipare l'introduzione di una miglioria d'impatto per il cliente o per il sistema \footnote{Ex: una nuova versione del calcolo delle scadenze o dell'importazione dati}. Questo meccanismo pu\`o essere utile per implementare strategie di rollout incrementale.
+
+  \section{Patterns}
+
+  \printbibliography[title={Bibliografia}]
   \printindex
 \end{document}
