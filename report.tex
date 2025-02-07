@@ -1,0 +1,124 @@
+\documentclass[a4paper,11pt,oneside, table]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{setspace}
+\usepackage{imakeidx}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{csquotes}
+\usepackage{caption}
+\captionsetup[table]{labelfont=it}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={IR Project},
+  pdfpagemode=FullScreen,
+}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newtheorem{nota}{Nota}
+
+\usepackage[english]{babel}
+\usepackage[
+  backend=bibtex,
+  style=numeric,
+  sorting=ydnt
+]{biblatex}
+\addbibresource{quotes.bib}
+\makeindex
+
+\newcommand{\putimage}[4] {
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width={#4}\linewidth]{#1}
+    \caption{#2}\label{#3}
+  \end{figure}
+}
+
+\newcommand{\putsubimage}[5] {
+  \begin{minipage}{{#4}\linewidth}
+    \centering
+    \includegraphics[width={#5}\linewidth]{#1}
+    \caption{#2}\label{#3}
+  \end{minipage}
+}
+
+\newcommand{\putimagecouple}[2] {
+  \begin{figure}[!htb]
+    \centering
+    #1
+    \hspace{0.5cm}
+    #2
+  \end{figure}
+}
+
+\newcommand{\putimagetriple}[3] {
+  \begin{figure}[!htb]
+    \centering
+    #1
+    #2
+    #3
+  \end{figure}
+}
+
+\newcommand{\putimagequadruple}[4] {
+  \begin{figure}[!htb]
+    \centering
+    #1
+    \hspace{0.5cm}
+    #2
+    \linebreak
+    #3
+    \hspace{0.5cm}
+    #4
+  \end{figure}
+}
+
+\begin{document}
+  %\begin{titlepage}
+  \noindent
+  \begin{minipage}[t]{0.19\textwidth}
+    \vspace{-4mm}{\includegraphics[scale=1.15]{logo_unimib.pdf}}
+  \end{minipage}
+  \begin{minipage}[t]{0.81\textwidth}
+    {
+      \setstretch{1.42}
+      {\textsc{University of Milano Bicocca}} \\
+      \textbf{School of Science} \\
+      \textbf{Department of Informatics, System and Communication} \\
+      \textbf{Master Degree in Computer Science} \\
+      \par
+    }
+  \end{minipage}
+  %\vspace{40mm}
+  \begin{center}
+    {\LARGE{
+      \setstretch{1.2}
+      \textbf{Riassunto di "Deployability"} \\
+      \textbf{Architettura del Software}
+      \par
+    }}
+  \end{center}
+  %\vspace{50mm}
+  %\vspace{15mm}
+  \begin{center}
+    \large{Refolli Francesco} \large{865955},
+  \end{center}
+  %\restoregeometry
+  %\end{titlepage}
+
+  %\tableofcontents
+  \renewcommand{\baselinestretch}{1.5}
+
+  \printindex
+\end{document}
